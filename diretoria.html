@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel da Diretoria</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .setor-btn {
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007BFF;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    .setor-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Painel da Diretoria</h1>
+
+  <div class="grid" id="setores-container"></div>
+
+  <script>
+    const setores = [
+      "ALERGIA", "ANATOMIA PATOLOGICA", "ANESTESIOLOGIA", "ASSISTENCIA DOMICILIAR",
+      "ASSISTENCIA MATERNO FETAL", "BUCOMAXILO", "CARDIOLOGIA", "CEAME", "CENTRO DE INFUSAO",
+      "CIRURGIA CARDIACA", "CIRURGIA DE CABECA E PESCOCO", "CIRURGIA GERAL", "CIRURGIA PEDIATRICA",
+      "CIRURGIA PLASTICA", "CIRURGIA TORACICA", "CIRURGIA VASCULAR", "CLINICA MEDICA",
+      "CUIDADOS PALIATIVOS", "DERMATOLOGIA", "ENDOCRINOLOGIA", "ENDOSCOPIA", "ENFERMAGEM",
+      "ESTOMATERAPIA", "FISIATRIA", "FISIOTERAPIA", "FONOAUDIOLOGIA", "GASTROCIRURGIA",
+      "GASTROCLINICA", "GERIATRIA", "GINECOLOGIA", "HEMATOLOGIA", "HEMODIALISE", "HEMOTERAPIA",
+      "INFECTOLOGIA", "MEDICINA EXERCICIO E DO ESPORTE", "MEDICINA NUCLEAR", "NEFROLOGIA",
+      "NEUROCIRURGIA", "NEUROLOGIA CLINICA", "NUTRICAO", "NUTROLOGIA", "OFTALMOLOGIA",
+      "ONCOLOGIA", "ORTOPEDIA", "OTORRINOLARINGOLOGIA", "PEDIATRIA", "PNEUMOLOGIA", "PSICOLOGIA",
+      "PSIQUIATRIA", "RADIOTERAPIA", "REUMATOLOGIA", "SERVIÇO SOCIAL", "TERAPIA OCUPACIONAL",
+      "UROLOGIA"
+    ];
+
+    const links = {
+      "ALERGIA": "https://app.powerbi.com/view?r=eyJrIjoiZGMwNmM3NTktMGQ2ZC00ZDFkLWFmOWQtOTBlNzE4ZjQ0MjMyIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "ANATOMIA PATOLOGICA": "https://app.powerbi.com/view?r=eyJrIjoiMWNjY2FhOTMtNGQ4OS00YzRkLThlNjItZjQ5Yjc5MmU1YzU0IiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "ANESTESIOLOGIA": "https://app.powerbi.com/view?r=eyJrIjoiM2MxZDRkMjYtZWEyOS00NTQ1LWIxOGQtZGE4YTIyZDQ0OWEyIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "ASSISTENCIA DOMICILIAR": "https://app.powerbi.com/view?r=eyJrIjoiNzA4YTZjZGItZWYyMy00MTE3LTg2ZWUtMTU2OGMxMjY0MTlmIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "ASSISTENCIA MATERNO FETAL": "https://app.powerbi.com/view?r=eyJrIjoiNzA4YTZjZGItZWYyMy00MTE3LTg2ZWUtMTU2OGMxMjY0MTlmIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "BUCOMAXILO": "https://app.powerbi.com/view?r=eyJrIjoiZTEzZTZkNjUtMjgwNy00YTcxLWE5ODMtNWU0YzIzYTA2N2M5IiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CARDIOLOGIA": "https://app.powerbi.com/view?r=eyJrIjoiZTg2MzBmNWYtYmVjMS00MDkxLWE0NDQtMGQ2ZTA3MDg2MzRmIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CEAME": "https://app.powerbi.com/view?r=eyJrIjoiZDJhOGIyODktMzkxYy00ODEwLTg4NTMtMWQ3NTNmYzczOGQxIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CENTRO DE INFUSAO": "https://app.powerbi.com/view?r=eyJrIjoiMmE4OTVhOWEtNjQ5Zi00NWE5LWIxZWItMTY1YzU0NzNlOTVjIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CIRURGIA CARDIACA": "https://app.powerbi.com/view?r=eyJrIjoiZmVkZjJiZDUtMDY3Ny00MzdlLTgxYTUtYmQyN2JlMjAzMTIzIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CIRURGIA DE CABECA E PESCOCO": "https://app.powerbi.com/view?r=eyJrIjoiMzkzOTg3ZDEtZGU2MC00YWZlLWFlODAtMzRjNjk4Nzg5MDRlIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CIRURGIA GERAL": "https://app.powerbi.com/view?r=eyJrIjoiZDVhZDg2MjMtYTU1Yi00Yzc1LTlhMzktYzlmYTFiODYzMGMzIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CIRURGIA PEDIATRICA": "https://app.powerbi.com/view?r=eyJrIjoiZWRhNDg3ODMtNzQwOS00Y2EzLTgwNWYtNDQ2NjM0ZTIwYTBmIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CIRURGIA PLASTICA": "https://app.powerbi.com/view?r=eyJrIjoiNzFiMmJiNTgtODg0ZC00MTIyLWFiZGMtM2JmYWE1OWYzNTA3IiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CIRURGIA TORACICA": "https://app.powerbi.com/view?r=eyJrIjoiMjAzYjY0YzItMjBkMS00MzY3LTkxZDItNzVlOTFkMzQ0ZGNjIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CIRURGIA VASCULAR": "https://app.powerbi.com/view?r=eyJrIjoiMTE2NjAwOGQtNWZjOS00MmVhLWJkMTYtNGM0ZTRmZTNlNGFmIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CLINICA MEDICA": "https://app.powerbi.com/view?r=eyJrIjoiNTA1NjRlYmItYjgxMS00NzZhLTk4OWUtMTJhYmJmNTU1MTJiIiwidCI6IjNhNzhiMGNkLTdjOGUtNDkyOS04M2Q1LTE5MGE2Y2MwMTM2NSJ9",
+      "CUIDADOS PALIATIVOS": "",
+      "DERMATOLOGIA": "",
+      "ENDOCRINOLOGIA": "",
+      "ENDOSCOPIA": "",
+      "ENFERMAGEM": "",
+      "ESTOMATERAPIA": "",
+      "FISIATRIA": "",
+      "FISIOTERAPIA": "",
+      "FONOAUDIOLOGIA": "",
+      "GASTROCIRURGIA": "",
+      "GASTROCLINICA": "",
+      "GERIATRIA": "",
+      "GINECOLOGIA": "",
+      "HEMATOLOGIA": "",
+      "HEMODIALISE": "",
+      "HEMOTERAPIA": "",
+      "INFECTOLOGIA": "",
+      "MEDICINA EXERCICIO E DO ESPORTE": "",
+      "MEDICINA NUCLEAR": "",
+      "NEFROLOGIA": "",
+      "NEUROCIRURGIA": "",
+      "NEUROLOGIA CLINICA": "",
+      "NUTRICAO": "",
+      "NUTROLOGIA": "",
+      "OFTALMOLOGIA": "",
+      "ONCOLOGIA": "",
+      "ORTOPEDIA": "",
+      "OTORRINOLARINGOLOGIA": "",
+      "PEDIATRIA": "",
+      "PNEUMOLOGIA": "",
+      "PSICOLOGIA": "",
+      "PSIQUIATRIA": "",
+      "RADIOTERAPIA": "",
+      "REUMATOLOGIA": "",
+      "SERVIÇO SOCIAL": "",
+      "TERAPIA OCUPACIONAL": "",
+      "UROLOGIA": ""
+    };
+
+    const container = document.getElementById("setores-container");
+
+    setores.forEach(setor => {
+      const btn = document.createElement("button");
+      btn.textContent = setor;
+      btn.className = "setor-btn";
+      btn.onclick = () => {
+        const url = links[setor] || `https://example.com/${setor.toLowerCase().replace(/\s+/g, '-')}`;
+        window.location.href = url;
+      };
+      container.appendChild(btn);
+    });
+  </script>
+
+</body>
+</html>
+
