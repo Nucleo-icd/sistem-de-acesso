@@ -1,22 +1,38 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema de Acesso - Login</title>
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-  <div class="container">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <input type="text" id="setor" placeholder="Setor" required />
-      <input type="password" id="senha" placeholder="Senha" required />
-      <button type="submit">Entrar</button>
-    </form>
-    <div id="errorMsg"></div>
-  </div>
 
-  <script src="js/login.js"></script>
+
+        <div class="question">
+            <label>7. Estresse *</label>
+            <input type="radio" name="estresse" value="0" required> Pouco
+            <input type="radio" name="estresse" value="1"> Algumas vezes
+            <input type="radio" name="estresse" value="2"> Quase sempre
+        </div>
+
+        <div class="question">
+            <label>8. Alimentação *</label>
+            <input type="radio" name="alimentacao" value="0" required> Saudável
+            <input type="radio" name="alimentacao" value="1"> Regular
+            <input type="radio" name="alimentacao" value="2"> Ruim
+        </div>
+
+        <div class="question">
+            <label>9. Falta de orientação *</label>
+            <input type="radio" name="orientacao" value="0" required> Já recebeu
+            <input type="radio" name="orientacao" value="1"> Nunca recebeu / Não lembra
+        </div>
+
+        <div class="question">
+            <label>10. Ergonomia / Postura *</label>
+            <input type="radio" name="ergonomia" value="0" required> Aplica bem
+            <input type="radio" name="ergonomia" value="1"> Não aplica / tem dúvidas
+        </div>
+
+        <div class="consent">
+            <input type="checkbox" name="consentimento" required> Declaro que li e concordo com o uso dos dados fornecidos para fins de triagem e atendimento, conforme a Lei Geral de Proteção de Dados (LGPD).
+        </div>
+
+        <br>
+        <button type="submit">Enviar Triagem</button>
+    </form>
+</div>
 </body>
 </html>
